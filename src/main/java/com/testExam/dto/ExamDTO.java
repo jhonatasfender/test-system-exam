@@ -18,11 +18,11 @@ public class ExamDTO {
     @NotBlank
     private String patientName;
 
-    @NotBlank
-    private String patientAge;
-
     @NotNull
-    private Integer patientGender;
+    private Integer patientAge;
+
+    @NotBlank
+    private String patientGender;
 
     @NotBlank
     private String physicianName;
@@ -32,5 +32,8 @@ public class ExamDTO {
 
     @NotBlank
     private String procedureName;
+
+    @NotNull
+    private Long healthcareInstitutionId;
 
 }

@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -17,31 +17,18 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Exam {
+public class HealthcareInstitution {
     @Id
     @GeneratedValue
     private Long id;
 
     @NotBlank
-    private String patientName;
+    @CNPJ(message = "CNPJ informado não é valido!")
+    private String CNPJ;
+
+    @NotBlank
+    private String name;
 
     @NotNull
-    private Integer patientAge;
-
-    @NotBlank
-    private String patientGender;
-
-    @NotBlank
-    private String physicianName;
-
-    @NotBlank
-    private String physicianCRM;
-
-    @NotBlank
-    private String procedureName;
-
-    @ManyToOne
-    @NotNull
-    private HealthcareInstitution healthcareInstitution;
-
+    private Integer pixeonCoins;
 }
