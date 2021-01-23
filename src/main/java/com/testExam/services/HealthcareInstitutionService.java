@@ -1,9 +1,7 @@
 package com.testExam.services;
 
-import com.testExam.dto.ExamDTO;
 import com.testExam.dto.HealthcareInstitutionDTO;
 import com.testExam.dto.HealthcareInstitutionViewDTO;
-import com.testExam.entity.Exam;
 import com.testExam.entity.HealthcareInstitution;
 import com.testExam.repository.HealthcareInstitutionRepository;
 import org.modelmapper.ModelMapper;
@@ -30,7 +28,6 @@ public class HealthcareInstitutionService {
         HealthcareInstitution map = modelMapper.map(dto, HealthcareInstitution.class);
 
         Optional<HealthcareInstitution> exist = healthcareInstitutionRepository.findByCNPJ(dto.getCNPJ());
-
         if (exist.isPresent()) {
             throw new RuntimeException("Nesse CNPJ já existe uma instituição cadastrada.");
         }
@@ -43,12 +40,9 @@ public class HealthcareInstitutionService {
 
 
     public HealthcareInstitutionViewDTO findByID(Long id) {
-        Optional<HealthcareInstitution> find = healthcareInstitutionRepository.findById(id);
+        HealthcareInstitution find = healthcareInstitutionRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Não foi possível localizar esse registro"));
 
-        if (!find.isEmpty()) {
-            throw new IllegalArgumentException("Não foi possível localizar esse registro");
-        }
-
-        return modelMapper.map(find.get(), HealthcareInstitutionViewDTO.class);
+        return modelMapper.map(find, HealthcareInstitutionViewDTO.class);
     }
 }

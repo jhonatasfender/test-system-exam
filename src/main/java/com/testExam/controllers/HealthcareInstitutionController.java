@@ -1,6 +1,5 @@
 package com.testExam.controllers;
 
-import com.testExam.dto.ExamDTO;
 import com.testExam.dto.HealthcareInstitutionDTO;
 import com.testExam.dto.HealthcareInstitutionViewDTO;
 import com.testExam.services.HealthcareInstitutionService;
@@ -34,7 +33,7 @@ public class HealthcareInstitutionController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<HealthcareInstitutionViewDTO> findById(@PathParam("id") Long id) {
+    public ResponseEntity<HealthcareInstitutionViewDTO> findById(@PathVariable("id") Long id) {
         HealthcareInstitutionViewDTO dto = healthcareInstitutionService.findByID(id);
         return ResponseEntity.ok(dto);
     }

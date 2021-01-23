@@ -23,7 +23,7 @@ public class Swagger {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
             .select()
-            .apis(RequestHandlerSelectors.any())
+            .apis(RequestHandlerSelectors.basePackage("com.testExam.controllers"))
             .paths(PathSelectors.any())
             .build()
             .apiInfo(apiInfo());
@@ -34,12 +34,14 @@ public class Swagger {
             "REST API",
             "Teste de avaliação.",
             appVersion,
-            "Termos",
+            null,
             new Contact(
                 "Jônatas Rodrigues",
                 "https://jhonatasfender.github.io/",
                 "jhoantas.fender@gmail.com"
             ),
-            "Licença de API", "URL de licença API", Collections.emptyList());
+            null, null,
+            Collections.emptyList()
+        );
     }
 }
