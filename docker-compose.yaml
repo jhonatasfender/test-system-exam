@@ -1,5 +1,9 @@
 java:
-  image: openjdk:11-jdk-alpine
-  command: "java $JAVA_OPTS -jar /app.jar"
+  image: maven:3-openjdk-11
+  command: "mvn spring-boot:run"
+  working_dir: /app
+  container_name: test-exam
+  ports:
+    - 8080:8080
   volumes:
     - .:/app

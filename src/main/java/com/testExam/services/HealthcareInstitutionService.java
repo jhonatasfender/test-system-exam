@@ -41,7 +41,7 @@ public class HealthcareInstitutionService {
 
     public HealthcareInstitutionViewDTO findByID(Long id) {
         HealthcareInstitution find = healthcareInstitutionRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Não foi possível localizar esse registro"));
+            .orElseThrow(() -> new IllegalArgumentException("Não foi possível localizar esse registro!"));
 
         return modelMapper.map(find, HealthcareInstitutionViewDTO.class);
     }

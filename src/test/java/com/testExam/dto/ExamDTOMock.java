@@ -18,9 +18,9 @@ public class ExamDTOMock {
         );
     }
 
-    public static ExamUpdateDTO update() {
+    public static ExamUpdateDTO update(Long id) {
         return new ExamUpdateDTO(
-            Long.valueOf(1), "Débora Carolina Monteiro", 20, "Feminino",
+            id, "Débora Carolina Monteiro", 20, "Feminino",
             "DANILO BOAVENTURA JOSÉ DE OLIVEIRA", "149639",
             "Creatinofosfoquinase MB"
         );

@@ -51,10 +51,6 @@ public class ExamService {
         permission(find, healthcareInstitutionId);
         map.setHealthcareInstitution(find.getHealthcareInstitution());
 
-        if (!examRepository.existsById(map.getId())) {
-            throw new IllegalArgumentException("Não foi possível localizar esse registro!");
-        }
-
         Exam saved = examRepository.save(map);
         return modelMapper.map(saved, ExamDTO.class);
     }

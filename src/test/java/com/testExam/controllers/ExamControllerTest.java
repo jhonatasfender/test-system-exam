@@ -1,7 +1,5 @@
 package com.testExam.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.testExam.dto.ExamDTO;
 import com.testExam.dto.ExamDTOMock;
 import com.testExam.dto.ExamUpdateDTO;
@@ -12,6 +10,7 @@ import com.testExam.entity.HealthcareInstitution;
 import com.testExam.entity.HealthcareInstitutionMock;
 import com.testExam.repository.ExamRepository;
 import com.testExam.repository.HealthcareInstitutionRepository;
+import com.testExam.util.TestingUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -72,7 +71,7 @@ public class ExamControllerTest {
         HealthcareInstitution health = healthcareInstitutionRepository.save(HealthcareInstitutionMock.get());
         ExamDTO exam = ExamDTOMock.get(modelMapper.map(health, HealthcareInstitutionDTO.class));
         mockMvc.perform(MockMvcRequestBuilders.post("/exam")
-            .content(json(exam))
+            .content(TestingUtilities.json(exam))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -97,15 +96,33 @@ public class ExamControllerTest {
     public void testUpdate() throws Exception {
         HealthcareInstitution healthcare = healthcareInstitutionRepository.save(HealthcareInstitutionMock.get());
         Exam exam = examRepository.save(ExamMock.get(healthcare));
+        Exam examSecond = examRepository.save(ExamMock.get(healthcare));
 
         ExamUpdateDTO examDTO = modelMapper.map(exam, ExamUpdateDTO.class);
         examDTO.setPatientName("Louise Maya Duarte");
 
         mockMvc.perform(MockMvcRequestBuilders.put("/exam/" + healthcare.getId())
-            .content(json(examDTO))
+            .content(TestingUtilities.json(examDTO))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk())
+            .andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.put("/exam/" + healthcare.getId())
+            .content(TestingUtilities.json(ExamDTOMock.update(examSecond.getId())))
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andReturn();
+        examDTO.setId(Long.valueOf(12342));
+        mockMvc.perform(MockMvcRequestBuilders.put("/exam/" + healthcare.getId())
+            .content(TestingUtilities.json(examDTO))
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(
+                MockMvcResultMatchers.jsonPath("$.errorMessage")
+                    .value("Não foi possível localizar esse registro!")
+            )
             .andReturn();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/exam/" + exam.getId() + "/" + healthcare.getId())
@@ -126,7 +143,7 @@ public class ExamControllerTest {
         ExamUpdateDTO examDTO = modelMapper.map(exam, ExamUpdateDTO.class);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/exam/" + healthcareSecond.getId())
-            .content(json(examDTO))
+            .content(TestingUtilities.json(examDTO))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -140,7 +157,7 @@ public class ExamControllerTest {
         Exam examSecond = examRepository.save(ExamMock.get(healthcareThird));
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/exam/" + exam.getId() + "/" + healthcareThird.getId())
-            .content(json(examSecond))
+            .content(TestingUtilities.json(examSecond))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -159,7 +176,7 @@ public class ExamControllerTest {
         dto.setId(null);
         for (Integer i = 20; i >= 1; i--) {
             mockMvc.perform(MockMvcRequestBuilders.post("/exam")
-                .content(json(dto))
+                .content(TestingUtilities.json(dto))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -168,7 +185,7 @@ public class ExamControllerTest {
         }
 
         mockMvc.perform(MockMvcRequestBuilders.post("/exam")
-            .content(json(dto))
+            .content(TestingUtilities.json(dto))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -185,7 +202,7 @@ public class ExamControllerTest {
         Exam exam = examRepository.save(ExamMock.get(healthcare));
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/exam/" + exam.getId() + "/" + healthcare.getId())
-            .content(json(exam))
+            .content(TestingUtilities.json(exam))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -201,13 +218,4 @@ public class ExamControllerTest {
             )
             .andReturn();
     }
-
-    private String json(Object object) {
-        try {
-            return new ObjectMapper().writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }
