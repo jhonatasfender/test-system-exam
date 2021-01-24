@@ -1,6 +1,8 @@
 Seja bem viado ao Test-Exam
 ===================
 
+[![Build Status](https://travis-ci.com/jhonatasfender/test-system-exam.svg?branch=master)](https://travis-ci.com/jhonatasfender/test-system-exam)
+
 
 Esse projeto tem a finalidade de avaliar a qualidade do código escrito por mim. Desde já agradeço.
 
