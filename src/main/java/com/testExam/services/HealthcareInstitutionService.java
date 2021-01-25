@@ -3,6 +3,8 @@ package com.testExam.services;
 import com.testExam.dto.HealthcareInstitutionDTO;
 import com.testExam.dto.HealthcareInstitutionViewDTO;
 import com.testExam.entity.HealthcareInstitution;
+import com.testExam.exception.AlreadyExistException;
+import com.testExam.exception.NotFoundException;
 import com.testExam.repository.HealthcareInstitutionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static com.testExam.exception.Message.CNPJ_ALREADY_EXISTS;
+import static com.testExam.exception.Message.REGISTRATION_NOT_LOCATED;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,7 +34,7 @@ public class HealthcareInstitutionService {
 
         Optional<HealthcareInstitution> exist = healthcareInstitutionRepository.findByCNPJ(dto.getCNPJ());
         if (exist.isPresent()) {
-            throw new RuntimeException("Nesse CNPJ já existe uma instituição cadastrada.");
+            throw new AlreadyExistException(CNPJ_ALREADY_EXISTS);
         }
 
         map.setPixeonCoins(PIXEON_COINS);
@@ -41,7 +46,7 @@ public class HealthcareInstitutionService {
 
     public HealthcareInstitutionViewDTO findByID(Long id) {
         HealthcareInstitution find = healthcareInstitutionRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Não foi possível localizar esse registro!"));
+            .orElseThrow(() -> new NotFoundException(REGISTRATION_NOT_LOCATED));
 
         return modelMapper.map(find, HealthcareInstitutionViewDTO.class);
     }

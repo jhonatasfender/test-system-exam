@@ -22,6 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static com.testExam.exception.Message.*;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ExamControllerTest {
@@ -58,10 +60,10 @@ public class ExamControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/exam/234523/1")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andExpect(
                 MockMvcResultMatchers.jsonPath("$.errorMessage")
-                    .value("Não foi possível localizar esse registro!")
+                    .value(REGISTRATION_NOT_LOCATED.getMessage())
             )
             .andReturn();
     }
@@ -118,10 +120,10 @@ public class ExamControllerTest {
             .content(TestingUtilities.json(examDTO))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andExpect(
                 MockMvcResultMatchers.jsonPath("$.errorMessage")
-                    .value("Não foi possível localizar esse registro!")
+                    .value(REGISTRATION_NOT_LOCATED.getMessage())
             )
             .andReturn();
 
@@ -146,10 +148,10 @@ public class ExamControllerTest {
             .content(TestingUtilities.json(examDTO))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized())
             .andExpect(
                 MockMvcResultMatchers.jsonPath("$.errorMessage")
-                    .value("Sem permissão para esse exame!")
+                    .value(NO_PERMISSION_FOR_THIS_EXAM.getMessage())
             )
             .andReturn();
 
@@ -160,10 +162,10 @@ public class ExamControllerTest {
             .content(TestingUtilities.json(examSecond))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized())
             .andExpect(
                 MockMvcResultMatchers.jsonPath("$.errorMessage")
-                    .value("Sem permissão para esse exame!")
+                    .value(NO_PERMISSION_FOR_THIS_EXAM.getMessage())
             )
             .andReturn();
     }
@@ -188,10 +190,10 @@ public class ExamControllerTest {
             .content(TestingUtilities.json(dto))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized())
             .andExpect(
                 MockMvcResultMatchers.jsonPath("$.errorMessage")
-                    .value("Por favor adquirir mais moedas!")
+                    .value(BUY_MORE_COINS.getMessage())
             )
             .andReturn();
     }
@@ -211,10 +213,10 @@ public class ExamControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/exam/" + exam.getId() + "/" + healthcare.getId())
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andExpect(
                 MockMvcResultMatchers.jsonPath("$.errorMessage")
-                    .value("Não foi possível localizar esse registro!")
+                    .value(REGISTRATION_NOT_LOCATED.getMessage())
             )
             .andReturn();
     }

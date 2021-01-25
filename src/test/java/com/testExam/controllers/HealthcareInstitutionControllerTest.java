@@ -17,6 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static com.testExam.exception.Message.CNPJ_ALREADY_EXISTS;
+import static com.testExam.exception.Message.REGISTRATION_NOT_LOCATED;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class HealthcareInstitutionControllerTest {
@@ -50,10 +53,10 @@ public class HealthcareInstitutionControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/healthcare-institution/234523")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andExpect(
                 MockMvcResultMatchers.jsonPath("$.errorMessage")
-                    .value("Não foi possível localizar esse registro!")
+                    .value(REGISTRATION_NOT_LOCATED.getMessage())
             )
             .andReturn();
     }
@@ -84,10 +87,10 @@ public class HealthcareInstitutionControllerTest {
             .content(TestingUtilities.json(dto))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(MockMvcResultMatchers.status().isConflict())
             .andExpect(
                 MockMvcResultMatchers.jsonPath("$.errorMessage")
-                    .value("Nesse CNPJ já existe uma instituição cadastrada.")
+                    .value(CNPJ_ALREADY_EXISTS.getMessage())
             )
             .andReturn();
     }
