@@ -15,7 +15,7 @@ Desejo que tenha uma ótima experiência para avaliar o projeto.
 
 #### docker-compose
 
-Caso queira executar o projeto via docker-compose, basta executar o comando na raiz do projeto `docker-compose up --build`
+Caso queira executar o projeto via docker-compose, basta executar o comando na raiz do projeto `docker-compose up --build`.    
 Assim que a imagem ficar up basta acessar a url http://localhost:8080/swagger-ui/index.html
 
 #### Heroku
