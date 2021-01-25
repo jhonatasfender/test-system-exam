@@ -26,6 +26,8 @@ Disponibilizei a aplicação na Heroku para que possa ter mais tranquilidade ao 
 
 Disponibilizei uma collection do postman para poder agilizar no processo de teste, na collection terá os dados prontos para poderem ser inserido. Para utilizar, importe o arquivo `Test Exam.postman_collection.json`.
 
+Caso queria utilizar o postman e testar a aplicação no heroku, por favor antes altere a url das variáveis da collection do postman colocando esse domínio https://intense-spire-23008.herokuapp.com.
+
 #### Swagger
 
 Caso ainda tenha interesse em testar a aplicação pelo swagger, irei disponibilizar alguns mocks aqui para facilitar os testes.
@@ -53,5 +55,5 @@ Considerações Finais
 -------------
 
 - Sobre a parte da instituição poderia acessar somente seus próprios exames criado, creio que poderia melhorar utilizando uma autenticação para a instituição, com isso acredito que ajudaria da credibilidade que aquela instituição criada estaria de fato acessando somente os seus próprios exames, da forma que eu implementei se uma outra instituição soubesse do id, conseguiria acessar o exame.
--  Sobre acessar na documentação do swagger para testar, acredito que seria um pouco chato acessar somente pelo swagger para realizar testes na api, seria interessante termos um front nem que seja simples para que se torne mais agradável para quem for testar, nesse projeto tentei amenizar isso utilizando o postman para poder acelerar. 
-- Acredito que seria uma boa opção ter alguma forma de apresentar algum relatório com a corbetura de teste, para que facilite a visualização sobre a qualidade do que foi testado, uma das ferramentas que sugeriria é o Jacoco.
+-  Sobre acessar na documentação do swagger para testar, acredito que seria um pouco chato acessar somente pelo swagger para realizar testes na API, seria interessante termos um front nem que seja simples para que se torne mais agradável para quem for testar, nesse projeto tentei amenizar isso utilizando o postman para poder acelerar. 
+- Acredito que seria uma boa opção ter alguma forma de apresentar algum relatório com a cobertura de teste, para que facilite a visualização sobre a qualidade do que foi testado, uma das ferramentas que sugeriria é o Jacoco.
